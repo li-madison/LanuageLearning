@@ -2,9 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   const navItems = [
     { name: 'Home', href: '/' },
@@ -13,6 +17,7 @@ export default function Navbar() {
     { name: 'About', href: '/about' },
   ];
 
+  // Full client-only nav after mounting
   return (
     <nav className="bg-white shadow-lg border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,6 +26,8 @@ export default function Navbar() {
             <div className="flex-shrink-0 flex items-center">
               <h1 className="text-xl font-bold text-gray-900">Language Learner</h1>
             </div>
+
+            {/* Desktop menu */}
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               {navItems.map((item) => (
                 <Link
@@ -38,11 +45,9 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-      </div>
-      
-      {/* Mobile menu */}
-      <div className="sm:hidden">
-        <div className="pt-2 pb-3 space-y-1">
+
+        {/* Mobile menu */}
+        <div className="sm:hidden pt-2 pb-3 space-y-1">
           {navItems.map((item) => (
             <Link
               key={item.name}
