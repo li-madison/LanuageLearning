@@ -8,8 +8,9 @@ import { Volume2, VolumeX, Loader2 } from 'lucide-react';
 
 export default function BookViewer() {
   const params = useParams();
-  const bookTitle = decodeURIComponent(Array.isArray(params.book) ? params.book[0] : params.book || "");
-
+  const bookTitle = params?.book 
+  ? decodeURIComponent(Array.isArray(params.book) ? params.book[0] : params.book)
+  : "";
   const [pages, setPages] = useState<{ image: string; text: string }[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
