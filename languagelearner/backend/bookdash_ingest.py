@@ -7,11 +7,10 @@ import shutil
 # -------------------------------
 # CONFIG
 # -------------------------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-INPUT_FOLDER = os.path.join(BASE_DIR, "books_input")
-OUTPUT_FOLDER = os.path.join(BASE_DIR, "../public/books")
+INPUT_FOLDER = "books_input"       # your raw book images folders
+OUTPUT_FOLDER = "../public/books"  # inside Next.js public folder
 
-# Set tesseract executable if not in PATH
+# Set tesseract executable if needed
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
@@ -20,11 +19,11 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 # PROCESS ALL BOOKS
 # -------------------------------
 for book_name in os.listdir(INPUT_FOLDER):
-    book_folder = os.path.join(INPUT_FOLDER, book_name)
-    images_folder = os.path.join(book_folder, "images")
+    book_input_path = os.path.join(INPUT_FOLDER, book_name)
+    images_folder = os.path.join(book_input_path, "images")  # LOOK INSIDE images/
 
     if not os.path.isdir(images_folder):
-        print(f"No 'images' folder for book '{book_name}', skipping.")
+        print(f"No images folder found for '{book_name}', skipping.")
         continue
 
     book_output_path = os.path.join(OUTPUT_FOLDER, book_name)
@@ -34,7 +33,7 @@ for book_name in os.listdir(INPUT_FOLDER):
 
     book_data = []
 
-    # Sort images alphabetically
+    # Sort images alphabetically to maintain page order
     image_files = sorted([
         f for f in os.listdir(images_folder)
         if f.lower().endswith((".png", ".jpg", ".jpeg"))
@@ -47,15 +46,16 @@ for book_name in os.listdir(INPUT_FOLDER):
     for img_file in image_files:
         img_path = os.path.join(images_folder, img_file)
 
-        # OCR text from PDF or skip if already in PDF
+        # OCR text
         text = pytesseract.image_to_string(Image.open(img_path))
 
         # Copy image to public folder
         dest_path = os.path.join(book_output_path, img_file)
         shutil.copy(img_path, dest_path)
 
+        # Save only filename (frontend prepends book folder)
         book_data.append({
-            "image": f"{book_name}/{img_file}",
+            "image": img_file,
             "text": text.strip()
         })
 
