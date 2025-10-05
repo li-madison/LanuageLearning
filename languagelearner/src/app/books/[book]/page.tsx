@@ -1,4 +1,3 @@
-
 "use client";
 
 import PageText from "../../components/PageText";
@@ -16,6 +15,8 @@ export default function BookViewer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSpanish, setIsSpanish] = useState(true);
+  const [translatedText, setTranslatedText] = useState("");
+  const [isTranslating, setIsTranslating] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -34,6 +35,44 @@ export default function BookViewer() {
     fetchBook();
   }, [bookTitle]);
 
+  // Translate text when page changes or language switches
+  useEffect(() => {
+    async function translateText() {
+      if (!pages[currentPage] || isSpanish) {
+        setTranslatedText("");
+        return;
+      }
+
+      setIsTranslating(true);
+      try {
+        const response = await fetch('/api/translate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            text: pages[currentPage].text,
+            target: 'es'
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Translation failed');
+        }
+
+        const data = await response.json();
+        setTranslatedText(data.translated);
+      } catch (error) {
+        console.error('Error translating text:', error);
+        setTranslatedText("Translation unavailable");
+      } finally {
+        setIsTranslating(false);
+      }
+    }
+
+    translateText();
+  }, [currentPage, isSpanish, pages]);
+
   const speakText = async () => {
     if (isPlaying && audioRef.current) {
       // Stop current audio
@@ -46,13 +85,16 @@ export default function BookViewer() {
     setIsLoading(true);
 
     try {
+      // Determine which text to speak based on language toggle
+      const textToSpeak = isSpanish ? pages[currentPage].text : translatedText;
+
       // Call your API route to generate speech
       const response = await fetch('/api/text-to-speech', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: pages[currentPage].text }),
+        body: JSON.stringify({ text: textToSpeak }),
       });
 
       if (!response.ok) {
@@ -111,7 +153,7 @@ export default function BookViewer() {
         
       {/* Title and Language Toggle */}
       <div className="flex items-center gap-4 mb-4">
-        <h1 className="text-6xl font-bold">{bookTitle}</h1>  
+        <h1 className="text text-6xl mt-5 font-bold">{bookTitle}</h1>  
       </div>
 
       <img
@@ -126,7 +168,11 @@ export default function BookViewer() {
           {isSpanish ? (
             <PageText text={pages[currentPage].text} targetLang="es"/>
           ) : (
-            <p>Hola! Mi dora!</p>
+            isTranslating ? (
+              <p className="text-gray-500 italic">Translating...</p>
+            ) : (
+              <p>{translatedText}</p>
+            )
           )}
         </div>
         
