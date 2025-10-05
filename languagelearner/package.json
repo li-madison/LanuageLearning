@@ -12,6 +12,7 @@
     "@google-cloud/translate": "^6.3.1",
     "auth0": "^5.0.0",
     "axios": "^1.12.2",
+    "elevenlabs": "^1.59.0",
     "dotenv": "^17.2.3",
     "next": "^15.5.4",
     "react": "^19.2.0",
