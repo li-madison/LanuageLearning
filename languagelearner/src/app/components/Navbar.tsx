@@ -19,12 +19,12 @@ export default function Navbar() {
 
   // Full client-only nav after mounting
   return (
-    <nav className="bg-white shadow-lg border-b">
+    <nav className="sticky top-0 z-50 bg-[#ffff] shadow-lg border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <h1 className="text-xl font-bold text-gray-900">Language Learner</h1>
+              <h1 className="text-4xl font-bold left-2 text-gray-900 text">LittleLingo</h1>
             </div>
 
             {/* Desktop menu */}

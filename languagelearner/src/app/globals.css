@@ -1,4 +1,13 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@400;500;600&display=swap');
+@font-face {
+  font-family: 'Bubble Gum';
+  src: url('../assets/fonts/Bubble Gum.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Summary Notes';
+  src: url('../assets/fonts/Summary Notes.ttf') format('truetype');
+}
 
 :root {
   --background: #ffffff;
@@ -19,21 +28,79 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-title {
+
+.title {
   color: #FFCF25;
   text-align: center;
   text-shadow: 0 6px 12px rgba(64, 64, 64, 0.25);
-  -webkit-text-stroke-width: 4px;
-  -webkit-text-stroke-color: #FFFEFF;
-  font-family: "Summary Notes";
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #ae8e18;
+  font-family: "Bubble Gum";
   font-size: 96px;
   font-style: normal;
   font-weight: 400;
   line-height: 80%; /* 76.8px */
-  letter-spacing: 5.76px;
+  letter-spacing: -.5px;
+}
+.text{
+  font-family: "Summary Notes";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 80%; /* 19.2px */
+  letter-spacing: -.5px;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background-color: #fffdfc;
+  margin: 0;
+  padding: 0;
+}
+
+/* Headings use playful bold font */
+h1, h2, h3, h4 {
+  font-family: 'Fredoka', sans-serif;
+}
+
+/* Button styling overrides */
+button, a.btn {
+  transition: all 0.2s ease-in-out;
+  border-radius: 9999px;
+  font-family: 'Fredoka', sans-serif;
+}
+
+button:hover, a.btn:hover {
+  transform: scale(1.05);
+}
+
+/* Mascot animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+/* Classes for use in JSX */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-wiggle {
+  animation: wiggle 1s ease-in-out infinite;
+}
+
+/* Optional: background stripes (like your wireframe) */
+.bg-stripes {
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.3) 0,
+    rgba(255, 255, 255, 0.3) 60px,
+    transparent 60px,
+    transparent 120px
+  );
 }
