@@ -3,13 +3,16 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useUser } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0'; // <-- note /client import
 
 export default function Navbar() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
+
+  // ✅ call useUser at the top of the component
+  const { user, isLoading } = useUser();
 
   const navItems = [
     { name: 'Home', href: '/' },
@@ -18,7 +21,8 @@ export default function Navbar() {
     { name: 'About', href: '/about' },
   ];
 
-  // Full client-only nav after mounting
+  if (!mounted || isLoading) return null; // optional guard while loading
+
   return (
     <nav className="sticky top-0 z-50 bg-[#ffff] shadow-lg border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,24 +54,32 @@ export default function Navbar() {
 
           {/* Auth buttons */}
           <div className="hidden sm:flex sm:items-center sm:space-x-4">
-            <Link
-              href="/signin"
-              className="text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium transition-colors duration-200"
-            >
-              Sign In
-            </Link>
+          {!user && !isLoading && (
+            <>
+              <Link
+                href="/signin"
+                className="text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium transition-colors duration-200"
+              >
+                Sign In
+              </Link>
+        
             <Link
               href="/signup"
               className="bg-[#1EC0FF] text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-[#0ea5e9] transition-all duration-200 transform hover:scale-105"
             >
               Sign Up
             </Link>
-            <Link
-              href="/logout"
-              className="bg-[#1EC0FF] text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-[#0ea5e9] transition-all duration-200 transform hover:scale-105"
-            >
-              Logout
-            </Link>
+            </>
+          )}
+          {user && (
+              <Link
+                href="/logout"
+                className="bg-[#1EC0FF] text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-[#0ea5e9] transition-all duration-200 transform hover:scale-105"
+              >
+                Logout
+              </Link>
+            )}
+           
           </div>
         </div>
 
@@ -86,21 +98,31 @@ export default function Navbar() {
               {item.name}
             </Link>
           ))}
-          
+
           {/* Mobile auth buttons */}
           <div className="pt-4 border-t border-gray-200">
+            {!user && (
+              <Link
+                href="/api/auth/login"
+                className="block pl-3 pr-4 py-2 text-base font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+              >
+                Sign In
+              </Link>
+            )}
             <Link
-              href="/signin"
-              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/signup"
+              href="/api/auth/login?screen_hint=signup"
               className="block pl-3 pr-4 py-2 text-base font-medium text-[#1EC0FF] hover:text-[#0ea5e9] hover:bg-blue-50 transition-colors duration-200"
             >
               Sign Up
             </Link>
+            {user && (
+              <Link
+                href="/api/auth/logout"
+                className="block pl-3 pr-4 py-2 text-base font-medium text-[#1EC0FF] hover:text-[#0ea5e9] hover:bg-blue-50 transition-colors duration-200"
+              >
+                Logout
+              </Link>
+            )}
           </div>
         </div>
       </div>
