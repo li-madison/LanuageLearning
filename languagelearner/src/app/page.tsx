@@ -1,6 +1,7 @@
 "use client";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { useUser } from "@auth0/nextjs-auth0";
+import Link from 'next/link';
 
 export default function Home() {
   
@@ -70,9 +71,9 @@ export default function Home() {
           <div className="bg-gradient-to-r from-green-400 to-green-600 rounded-2xl p-10 text-white shadow-xl">
             <h2 className="text text-3xl font-extrabold mb-4">Ready to Start Learning?</h2>
             <p className="text-lg md:text-xl mb-6">Join thousands of learners already having fun with languages.</p>
-            <button className="text text-2xl bg-yellow-300 text-orange-700 font-bold py-4 px-10 rounded-full shadow-md hover:scale-105 hover:bg-yellow-400 transition">
+            <Link href="/signin" className="text text-2xl bg-yellow-300 text-orange-700 font-bold py-4 px-10 rounded-full shadow-md hover:scale-105 hover:bg-yellow-400 transition">
               Get Started Now 🚀
-            </button>
+            </Link>
           </div>
         </div>
       </div>
