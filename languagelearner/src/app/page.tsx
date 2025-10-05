@@ -1,6 +1,14 @@
+"use client";
+import { UserProvider } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0";
 
 export default function Home() {
+
+ 
+  
   return (
+   
+      
     <div className="min-h-screen bg-[#77d9ff] bg-stripes py-12 relative overflow-hidden">
       {/* Mascots */}
       
@@ -70,5 +78,6 @@ export default function Home() {
         </div>
       </div>
     </div>
+   
   );
 }

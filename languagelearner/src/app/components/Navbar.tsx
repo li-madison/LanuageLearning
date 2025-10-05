@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useUser } from '@auth0/nextjs-auth0';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -60,6 +61,12 @@ export default function Navbar() {
               className="bg-[#1EC0FF] text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-[#0ea5e9] transition-all duration-200 transform hover:scale-105"
             >
               Sign Up
+            </Link>
+            <Link
+              href="/logout"
+              className="bg-[#1EC0FF] text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-[#0ea5e9] transition-all duration-200 transform hover:scale-105"
+            >
+              Logout
             </Link>
           </div>
         </div>
