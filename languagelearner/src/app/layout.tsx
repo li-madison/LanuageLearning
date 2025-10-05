@@ -5,14 +5,18 @@ import Navbar from './components/Navbar';
 
 
 export const metadata = {
-  title: 'Language Learning App',
+  title: 'LittleLingo',
+  icons:{
+      icon: '/mascots/owl.png',
+  }
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
+     
       <body>
-        
+      
         <ClientProviders><Navbar/>{children}</ClientProviders>
       </body>
     </html>

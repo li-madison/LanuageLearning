@@ -201,7 +201,7 @@ function SimonGamePlay({ onBackToHome }: { onBackToHome: () => void }) {
     }
 
     // Check game end conditions
-    if (score + (isCorrect ? 1 : 0) >= 5) {
+    if (score + (isCorrect ? 1 : 0) >= 6) {
       setGameWon(true);
     } else if (lives - (isCorrect ? 0 : 1) <= 0) {
       setGameOver(true);
