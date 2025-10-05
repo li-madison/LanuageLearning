@@ -10,8 +10,6 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
-
-  // ✅ call useUser at the top of the component
   const { user, isLoading } = useUser();
 
   const navItems = [
