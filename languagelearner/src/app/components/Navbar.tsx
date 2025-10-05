@@ -19,7 +19,7 @@ export default function Navbar() {
     { name: 'About', href: '/about' },
   ];
 
-  if (!mounted || isLoading) return null; // optional guard while loading
+  if (!mounted || isLoading) return null;
 
   return (
     <nav className="sticky top-0 z-50 bg-[#ffff] shadow-lg border-b">
@@ -32,7 +32,6 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Desktop menu */}
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               {navItems.map((item) => (
                 <Link
@@ -50,7 +49,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Auth buttons */}
+         
           <div className="hidden sm:flex sm:items-center sm:space-x-4">
           {!user && !isLoading && (
             <>

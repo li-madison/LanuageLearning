@@ -11,7 +11,7 @@ export default function BooksPage() {
   useEffect(() => {
     async function fetchBooks() {
       try {
-        // Fetch all book folders (assumes books.json exists in public/books/)
+      
         const res = await fetch("/books/books.json");
         if (!res.ok) throw new Error("Failed to fetch books.json");
         const data: string[] = await res.json();
