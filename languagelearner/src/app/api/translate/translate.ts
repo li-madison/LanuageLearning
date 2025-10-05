@@ -1,36 +1,16 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { TranslationServiceClient } from "@google-cloud/translate";
+// Example Next.js API route: /api/translate.ts
+import { NextRequest, NextResponse } from "next/server";
+import { Translate } from "@google-cloud/translate/build/src/v2/index.js";
 
-// Initialize the client using service account JSON
-const client = new TranslationServiceClient({
-  credentials: JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON!),
-});
+const translate = new Translate({ key: process.env.GOOGLE_API_KEY });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
+export async function POST(req: NextRequest) {
   try {
-    const { text, target } = req.body;
-
-    if (!text || !target) {
-      return res.status(400).json({ error: "Missing text or target language" });
-    }
-
-    const request = {
-      parent: `projects/${process.env.GOOGLE_PROJECT_ID}/locations/global`,
-      contents: [text],
-      mimeType: "text/plain",
-      targetLanguageCode: target,
-    };
-
-    const [response] = await client.translateText(request);
-    const translation = response.translations?.[0]?.translatedText || "";
-
-    res.status(200).json({ translation });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Translation failed" });
+    const { text, target } = await req.json();
+    const [translation] = await translate.translate(text, target);
+    return NextResponse.json({ translated: translation });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ translated: Text });
   }
 }

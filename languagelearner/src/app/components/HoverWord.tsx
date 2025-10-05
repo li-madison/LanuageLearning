@@ -3,10 +3,8 @@
 import { useState } from "react";
 import axios from "axios";
 
-// ---------- Translation cache (put here, outside the component) ----------
 const translationCache: Record<string, string> = {};
 
-// ---------- Component ----------
 type HoverWordProps = {
   word: string;
   targetLang: string;
@@ -20,28 +18,34 @@ export default function HoverWord({ word, targetLang }: HoverWordProps) {
 
   const handleMouseEnter = async () => {
     setShow(true);
-
+  
     if (!translation) {
       const cacheKey = `${word}_${targetLang}`;
       if (translationCache[cacheKey]) {
         setTranslation(translationCache[cacheKey]);
         return;
       }
-
+  
       try {
-        const res = await axios.post("/api/translate/translate", {
-          text: word,
-          target: targetLang,
+        const res = await fetch("/api/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            text: word,        // <-- make sure this is the word
+            target: "es" // <-- and this is the language code
+          }),
         });
-
-        translationCache[cacheKey] = res.data.translation;
-        setTranslation(res.data.translation);
+  
+        const data = await res.json();
+        translationCache[cacheKey] = data.translated;
+        setTranslation(data.translated);
       } catch (err) {
         console.error("Translation error:", err);
         setTranslation("?");
       }
     }
   };
+  
 
   const handleMouseLeave = () => setShow(false);
 
@@ -53,7 +57,7 @@ export default function HoverWord({ word, targetLang }: HoverWordProps) {
     >
       {word}
       {show && translation && (
-        <span className="absolute bg-gray-100 text-black text-sm p-1 rounded shadow-lg -mt-6 ml-1 z-50">
+        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 -mb-2 bg-gray-100 text-black text-sm p-1 rounded shadow-lg z-50 whitespace-nowrap">
           {translation}
         </span>
       )}
