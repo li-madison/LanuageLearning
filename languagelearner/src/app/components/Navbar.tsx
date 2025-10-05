@@ -24,7 +24,9 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <h1 className="text-4xl font-bold left-2 text-gray-900 text">LittleLingo</h1>
+              <Link href="/" className="text-4xl font-bold text-gray-900 text">
+                LittleLingo
+              </Link>
             </div>
 
             {/* Desktop menu */}
@@ -44,6 +46,22 @@ export default function Navbar() {
               ))}
             </div>
           </div>
+
+          {/* Auth buttons */}
+          <div className="hidden sm:flex sm:items-center sm:space-x-4">
+            <Link
+              href="/signin"
+              className="text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium transition-colors duration-200"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/signup"
+              className="bg-[#1EC0FF] text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-[#0ea5e9] transition-all duration-200 transform hover:scale-105"
+            >
+              Sign Up
+            </Link>
+          </div>
         </div>
 
         {/* Mobile menu */}
@@ -61,6 +79,22 @@ export default function Navbar() {
               {item.name}
             </Link>
           ))}
+          
+          {/* Mobile auth buttons */}
+          <div className="pt-4 border-t border-gray-200">
+            <Link
+              href="/signin"
+              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/signup"
+              className="block pl-3 pr-4 py-2 text-base font-medium text-[#1EC0FF] hover:text-[#0ea5e9] hover:bg-blue-50 transition-colors duration-200"
+            >
+              Sign Up
+            </Link>
+          </div>
         </div>
       </div>
     </nav>
