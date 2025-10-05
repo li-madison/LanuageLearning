@@ -42,6 +42,22 @@
   line-height: 80%; /* 76.8px */
   letter-spacing: -.5px;
 }
+
+.gameTitle
+{
+  color: #1EC0FF;
+  text-align: center;
+  text-shadow: 0 6px 12px rgba(64, 64, 64, 0.25);
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #1EC0FF;
+  font-family: "Bubble Gum";
+  font-size: 96px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 80%; /* 76.8px */
+  letter-spacing: -.5px;
+}
+
 .text{
   font-family: "Summary Notes";
   font-style: normal;
