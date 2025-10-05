@@ -295,7 +295,7 @@ const TranslationFishing = () => {
                 }}
               >
                 <div className="relative inline-block">
-                  <div style={{ fontSize: `${f.size}px` }}>🐟</div>
+                  <div style={{ fontSize: `${f.size}px`, transform: 'scaleX(-1)'}}>🐟</div>
                   <div 
                     className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/90 rounded-lg px-2 py-1 font-bold text-gray-800 border-2 border-[#56D57E] shadow-md whitespace-nowrap"
                     style={{
